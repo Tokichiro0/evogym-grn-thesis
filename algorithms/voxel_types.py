@@ -3,7 +3,7 @@ VOXEL_TYPES = {
     'fat': 2,
     'phase_muscle': 3,
     'offphase_muscle': 4,
-} #  matches materials order in prepare_robot_files.py
+} #matches materials order in prepare_robot_files.py
 
 TF_WEIGHTS = {
     'bone': 4,
@@ -18,8 +18,6 @@ VOXEL_TYPES_COLORS = {
     'phase_muscle': (120, 20, 20), # dark red
     'offphase_muscle': (240, 120, 120), # light red
 }
-
-####
 
 VOXEL_TYPES_NOBONE = {
     'fat': 1,

@@ -5,3 +5,10 @@ scipy
 pandas
 lxml
 opencv-python
+scikit-learn
+gymnasium
+shapely
+Pillow
+imageio
+imageio-ffmpeg
+cma

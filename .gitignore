@@ -3,6 +3,7 @@ __pycache__
 # Ignore venvs created by Docker or manually
 venv/
 outervenv/
+.venv/
 
 # Ignore all workspace output created by Voxcraft / EA runs
 workspace/
@@ -17,5 +18,16 @@ voxcraft-viz/
 experiments/analysis/.ipynb_checkpoints/
 .idea/
 
+# Thesis / EvoGym generated outputs
+algorithms/tmp_out/
+*.sqlite
+*.db
 
+# Videos and generated media
+visuals/videos/
+*.mp4
+*.avi
 
+# Editor / OS files
+.DS_Store
+.vscode/

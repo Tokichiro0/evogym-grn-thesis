@@ -33,7 +33,7 @@ class Config():
         parser.add_argument(
             "--algorithm",
             required=False,
-            default="basic_EA",
+            default="basic_EA_thesis",
             type=str,
             help="",
         )
@@ -69,7 +69,7 @@ class Config():
         parser.add_argument(
             "--max_voxels",
             required=False,
-            default=64,
+            default=9,
             type=int,
             help="",
         )
@@ -77,7 +77,7 @@ class Config():
         parser.add_argument(
             "--cube_face_size",
             required=False,
-            default=4,
+            default=3,
             type=int,
             help="",
         )
