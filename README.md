@@ -2,10 +2,10 @@
 
 This repository contains the code used for my bachelor thesis experiments on evolving 2D soft robots in EvoGym with a Gene Regulatory Network (GRN)-based developmental encoding.
 
-The project builds on an existing EvoGym-GRN codebase. For the thesis, the code was adapted to compare two fitness conditions in a `5x5` voxel design space:
+The thesis compares two fitness conditions in a `5x5` voxel design space:
 
-1. displacement-only fitness
-2. reward & penalty fitness
+1. Displacement-only fitness
+2. Reward & penalty fitness
 
 The goal is to study whether displacement-based selection favors smaller morphologies, and whether reward shaping can produce larger or more structured robots without significantly reducing locomotion performance.
 
@@ -13,17 +13,16 @@ The goal is to study whether displacement-based selection favors smaller morphol
 
 > Does displacement-based selection in GRN-developed soft robots create pressure toward smaller morphologies, and can reward shaping produce more complex bodies without reducing locomotion performance?
 
-## Repository Structure
+## Repository Contents
 
 ```text
-evogym-GRN/
+evogym-grn-thesis/
 ├── algorithms/
 │   ├── basic_EA_thesis.py
 │   ├── GRN_2D.py
 │   ├── voxel_types.py
 │   ├── EA_classes.py
-│   ├── experiment.py
-│   └── tmp_out/
+│   └── experiment.py
 │
 ├── simulation/
 │   ├── prepare_robot_files.py
@@ -39,41 +38,38 @@ evogym-GRN/
 │   ├── phase_grids.py
 │   ├── intricacy_per_gen_final.csv
 │   └── plots/
+│       ├── plot.py
+│       ├── plots_5x5/
+│       └── 5x5_balance/
+│
+├── visuals/
+│   └── pictures/
 │
 ├── experiments/
-├── visuals/
 ├── requirements.txt
+├── .gitignore
 └── README.md
 ```
 
-The main thesis code is in:
+The main thesis code is in `algorithms/`, `simulation/`, `utils/`, and `analysis/`.
 
-- `algorithms/`
-- `simulation/`
-- `utils/`
-- `analysis/`
+The `experiments/` folder contains older or supporting scripts from the broader original project. The `visuals/pictures/` folder contains example robot screenshots used for inspection and thesis figures.
 
-The `experiments/` folder contains older or supporting scripts from the broader project. The `visuals/` folder contains generated screenshots, pictures, and videos.
+Raw evolutionary run folders, SQLite databases, and videos are not included in the repository because they are generated outputs and can become large.
 
 ## Main Adaptations
 
-Compared to the original codebase, this thesis version adds or adapts:
+Compared to the original EvoGym-GRN codebase, this thesis version adds or adapts:
 
 - `algorithms/basic_EA_thesis.py` as the main thesis evolutionary algorithm
 - GRN development with actuator phase values
-- phase and off-phase actuator types
-- conversion from GRN phenotypes to EvoGym robot structures
+- Phase and off-phase actuator types
+- Conversion from GRN phenotypes to EvoGym robot structures
 - EvoGym simulation with a fixed sine-wave controller
-- displacement-only fitness
-- reward & penalty fitness
-- morphology metrics such as body size, material composition, actuator balance, and intricacy
-- analysis scripts for plots, actuator balance, and boundary intricacy
-
-The main file for running thesis experiments is:
-
-```text
-algorithms/basic_EA_thesis.py
-```
+- Displacement-only fitness
+- Reward & penalty fitness
+- Morphology metrics such as body size, material composition, actuator balance, and intricacy
+- Analysis scripts for final plots, actuator balance, and boundary intricacy
 
 ## Final Experiment Setup
 
@@ -104,7 +100,7 @@ The two final conditions are:
 
 ### `algorithms/basic_EA_thesis.py`
 
-Main evolutionary algorithm for the thesis experiments. It handles population initialization, selection, crossover, mutation, GRN development, EvoGym simulation, metric calculation, survivor selection, and saving results.
+Main evolutionary algorithm for the thesis experiments. It handles population initialization, parent selection, crossover, mutation, GRN development, EvoGym simulation, fitness calculation, survivor selection, elitism, and result saving.
 
 Mutation is applied before development, so the evaluated phenotype belongs to the final mutated genome.
 
@@ -169,11 +165,11 @@ fitness = displacement
 
 The reward & penalty fitness includes:
 
-- displacement
-- material diversity bonus
-- actuator balance bonus
-- penalty for too few actuators
-- penalty for invalid morphologies
+- Displacement
+- Material diversity bonus
+- Actuator balance bonus
+- Penalty for too few actuators
+- Penalty for invalid morphologies
 
 The reward fitness does not directly reward body size.
 
@@ -185,11 +181,11 @@ Defines command-line arguments such as population size, number of generations, g
 
 ### `analysis/intricacy.py`
 
-Redevelops saved genomes from the experiment databases and calculates boundary-based morphology metrics:
+Redevelops saved genomes from experiment databases and calculates boundary-based morphology metrics:
 
-- raw intricacy
-- intricacy per voxel
-- intricacy per perimeter
+- Raw intricacy
+- Intricacy per voxel
+- Intricacy per perimeter
 
 ### `analysis/phase_grids.py`
 
@@ -208,12 +204,12 @@ A value of `0.0` means only one actuator type is present.
 
 Generates the final `5x5` plots, including:
 
-- fitness over generations
-- displacement over generations
-- body size over generations
-- raw intricacy over generations
-- intricacy per voxel over generations
-- displacement versus intricacy scatter plot
+- Fitness over generations
+- Displacement over generations
+- Body size over generations
+- Raw intricacy over generations
+- Intricacy per voxel over generations
+- Displacement versus intricacy scatter plot
 
 Final plots are saved in:
 
@@ -221,52 +217,40 @@ Final plots are saved in:
 analysis/plots/plots_5x5/
 ```
 
+### `analysis/plots/5x5_balance/balance.py`
+
+Generates actuator-balance plots for the final `5x5` experiments.
+
 ## Generated Outputs
 
-### `algorithms/tmp_out/`
+The repository is mainly intended to store the source code and lightweight final analysis files.
 
-Stores raw evolutionary run outputs.
+### Included Outputs
 
-Example structure:
+The following outputs may be included because they are useful for thesis inspection and reproducibility:
+
+```text
+analysis/intricacy_per_gen_final.csv
+analysis/plots/plots_5x5/
+analysis/plots/5x5_balance/
+visuals/pictures/
+```
+
+### Not Included Outputs
+
+The following files are generated during experiments and are ignored by Git:
 
 ```text
 algorithms/tmp_out/
-└── defaultstudy/
-    ├── Displacement fitness (5×5)/
-    │   ├── run_1/
-    │   └── ...
-    └── Reward & penalty fitness (5×5)/
-        ├── run_1/
-        └── ...
+*.sqlite
+*.db
+visuals/videos/
+*.mp4
+*.avi
+.ipynb_checkpoints/
 ```
 
-Each run folder contains an SQLite database with saved robots, genomes, fitness values, displacement values, and generation-survivor information.
-
-### `analysis/intricacy_per_gen_final.csv`
-
-CSV file containing post-hoc metrics used for final plots and comparisons.
-
-Typical columns include:
-
-- experiment
-- run
-- generation
-- robot ID
-- fitness
-- displacement
-- number of voxels
-- intricacy
-- perimeter
-- intricacy per voxel
-- intricacy per perimeter
-
-### `visuals/pictures/`
-
-Contains screenshots and static robot images for visual inspection.
-
-### `visuals/videos/`
-
-Contains generated robot videos. These are useful for presentation but are not required for the numerical analysis.
+Raw run folders and videos can be regenerated by running the experiments and analysis scripts.
 
 ## Dependencies
 
@@ -321,7 +305,7 @@ pip install -e ../evogym --no-deps --no-build-isolation
 
 Run commands from the repository root.
 
-### Displacement-only condition
+### Displacement-Only Condition
 
 ```bash
 python algorithms/basic_EA_thesis.py \
@@ -335,7 +319,7 @@ python algorithms/basic_EA_thesis.py \
   --run 1
 ```
 
-### Reward & penalty condition
+### Reward & Penalty Condition
 
 ```bash
 python algorithms/basic_EA_thesis.py \
@@ -368,6 +352,7 @@ Typical workflow:
 python analysis/intricacy.py
 python analysis/phase_grids.py
 python analysis/plots/plot.py
+python analysis/plots/5x5_balance/balance.py
 ```
 
 The analysis scripts generate CSV files, plots, actuator-balance results, morphology visualizations, screenshots, and optional videos.
@@ -388,33 +373,13 @@ The analysis scripts generate CSV files, plots, actuator-balance results, morpho
 ## Notes
 
 - The final thesis focuses on the `5x5` experiments.
+- Raw run outputs, databases, and videos are intentionally not tracked by Git.
 - Some older scripts in `experiments/` are kept for reference.
-- Some analysis scripts may still contain older `3x3` settings.
-- Some scripts contain local absolute paths and may need to be edited on another machine.
+- Some scripts may contain local absolute paths and may need to be edited on another machine.
 - The controller is fixed; the GRN evolves morphology and actuator phase offsets.
 - The reward & penalty fitness does not directly reward body size.
 - Boundary intricacy measures only external outline complexity.
-- Generated outputs such as `tmp_out/`, plots, screenshots, and videos are not core source code.
-
-## Recommended `.gitignore`
-
-```gitignore
-__pycache__/
-*.pyc
-.ipynb_checkpoints/
-
-# Evolution output
-algorithms/tmp_out/
-
-# Databases
-*.sqlite
-*.db
-
-# Videos
-*.mp4
-*.avi
-visuals/videos/
-```
+- Actuator balance measures actuator counts, not actuator placement or phase coordination.
 
 ## Reproducibility Checklist
 
@@ -423,8 +388,8 @@ visuals/videos/
 3. Install EvoGym.
 4. Run 10 displacement-only `5x5` experiments.
 5. Run 10 reward & penalty `5x5` experiments.
-6. Update paths in the analysis scripts.
+6. Update paths in the analysis scripts if needed.
 7. Run intricacy analysis.
 8. Run actuator-balance analysis.
 9. Generate final plots.
-10. Use final-generation data for statistical tests.
+10. Use final-generation champions for statistical comparisons.
