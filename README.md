@@ -1,13 +1,12 @@
 # GRN-Developed Soft Robots in EvoGym
 
-This repository contains the code used for my bachelor thesis experiments on evolving 2D soft robots in EvoGym with a Gene Regulatory Network (GRN)-based developmental encoding.
+In this repository is the code I wrote for the execution of experiments in my bachelor’s thesis about evolving 2D soft robots using a Gene Regulatory Network (GRN) as a developmental encoding in an EvoGym environment.
 
-The thesis compares two fitness conditions in a `5x5` voxel design space:
+This work is based on pre-existing EvoGym-GRN source code. The purpose of my research was to adapt the pre-existing code to assess two different prize and penalty systems within a 5x5 voxel design space.
 
-1. Displacement-only fitness
-2. Reward & penalty fitness
-
-The goal is to study whether displacement-based selection favors smaller morphologies, and whether reward shaping can produce larger or more structured robots without significantly reducing locomotion performance.
+displacement only fitness
+reward & penalty based fitness
+The goal of my dissertation project is to investigate the potential for selection based on displacement to produce smaller morphologies, and if using reward shaping could allow for larger or more structured robots without greatly decreasing their ability to locomote.
 
 ## Research Question
 
@@ -59,17 +58,16 @@ Raw evolutionary run folders, SQLite databases, and videos are not included in t
 
 ## Main Adaptations
 
-Compared to the original EvoGym-GRN codebase, this thesis version adds or adapts:
-
+In addition to the original EvoGym-GRN library, this version of the Thesis has developed the following systems or made modifications to them:
 - `algorithms/basic_EA_thesis.py` as the main thesis evolutionary algorithm
-- GRN development with actuator phase values
-- Phase and off-phase actuator types
-- Conversion from GRN phenotypes to EvoGym robot structures
-- EvoGym simulation with a fixed sine-wave controller
+- Development of a GRN with actuator phase values.
+- Development of phase and off-phase actuator types
+- Development of the ability to convert GRN phenotypes into EvoGym robot structures.
+- Provision of an EvoGym simulator using a fixed sine-wave controller.
 - Displacement-only fitness
 - Reward & penalty fitness
-- Morphology metrics such as body size, material composition, actuator balance, and intricacy
-- Analysis scripts for final plots, actuator balance, and boundary intricacy
+- The creation of Morphology Metrics - for example, body size, materials, actuator balance, intricacy, etc.
+- The development of analysis scripts to generate final plots, actuator balance, and boundary intricacy plots.
 
 ## Final Experiment Setup
 
@@ -100,9 +98,9 @@ The two final conditions are:
 
 ### `algorithms/basic_EA_thesis.py`
 
-Main evolutionary algorithm for the thesis experiments. It handles population initialization, parent selection, crossover, mutation, GRN development, EvoGym simulation, fitness calculation, survivor selection, elitism, and result saving.
+The primary evolutionary algorithm used for the experiments in the thesis performs the following tasks: population initialization, parent selection, crossover, mutation, GRN development, EvoGym simulation, fitness calculation, survivor selection, elitism, and result saving.
 
-Mutation is applied before development, so the evaluated phenotype belongs to the final mutated genome.
+Mutations occur before GRN development such that the evaluated phenotype represents the genome that has undergone all the final mutations.
 
 ### `algorithms/GRN_2D.py`
 
@@ -130,7 +128,7 @@ Important settings:
 
 ### `simulation/prepare_robot_files.py`
 
-Converts a developed GRN phenotype into EvoGym-compatible robot data. It trims empty borders, maps GRN material IDs to EvoGym voxel IDs, creates connectivity, and keeps actuator phase offsets aligned with the robot body.
+Differentiates developed GRN phenotype into compatible robotic data according to EvoGym. Removes empty borders, associates GRN material IDs with EvoGym voxel IDs, establishes connection, and synchronizes actuator phase offsets with robot body position.
 
 ### `simulation/simulation_resources.py`
 
@@ -372,24 +370,17 @@ The analysis scripts generate CSV files, plots, actuator-balance results, morpho
 
 ## Notes
 
-- The final thesis focuses on the `5x5` experiments.
-- Raw run outputs, databases, and videos are intentionally not tracked by Git.
-- Some older scripts in `experiments/` are kept for reference.
-- Some scripts may contain local absolute paths and may need to be edited on another machine.
-- The controller is fixed; the GRN evolves morphology and actuator phase offsets.
-- The reward & penalty fitness does not directly reward body size.
-- Boundary intricacy measures only external outline complexity.
-- Actuator balance measures actuator counts, not actuator placement or phase coordination.
+The last thesis is a focus on the experimental runs corresponding to Five Experiment Five. Running outputs, data documents and video are purposely not tracked by Git. There are some older versions of the experiment runs kept in experiments/ for reference only. Scripts may also have local absolute paths and so will likely require manual editing on other machines. The controller is fixed and the evolving GRN is responsible for evolution of the resulting morphologies that exist, as well as the evolution of the actuator phase offsets. Body size is not directly rewarded with the reward and penalty fitnesses. The measurement of boundary intricacy is made only on the measures of complexity of the external outline of the objects produced. The measurement of the actuator balance is made solely on the number of actuators employed, and does not take into account either where they are located, or how well their phases are coordinated to one another.
 
 ## Reproducibility Checklist
 
-1. Set up the Python environment.
-2. Install the required packages.
-3. Install EvoGym.
-4. Run 10 displacement-only `5x5` experiments.
-5. Run 10 reward & penalty `5x5` experiments.
-6. Update paths in the analysis scripts if needed.
-7. Run intricacy analysis.
-8. Run actuator-balance analysis.
-9. Generate final plots.
-10. Use final-generation champions for statistical comparisons.
+1. Create your Python workspace.
+2. Add required modules/library.
+3. Add EvoGym module/library.
+4. Perform ten 5x5 only-displacement experiments.
+5. Perform ten 5x5 both-reward-penalty experiments.
+6. Update the analysis scripts to include any required environmental paths.
+7. Carry out complexity analysis.
+8. Carry out actuator balance analysis.
+9. Produce final graphs.
+10. Compare finalists to find out who won.
