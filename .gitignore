@@ -31,3 +31,14 @@ visuals/videos/
 # Editor / OS files
 .DS_Store
 .vscode/
+# Ignore non-final thesis experiment outputs
+algorithms/tmp_out/defaultstudy/Displacement fitness (3x3)/
+algorithms/tmp_out/defaultstudy/Reward & penalty fitness (3x3)/
+algorithms/tmp_out/defaultstudy/thesis_2x2_100gen/
+algorithms/tmp_out/defaultstudy/thesis_4x4_100gen/
+
+# Ignore non-final videos
+visuals/videos/2x2/
+visuals/videos/3x3/
+visuals/videos/3x3_baseline/
+visuals/videos/4x4/
