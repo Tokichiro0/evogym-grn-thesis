@@ -16,13 +16,7 @@ voxcraft-viz/
 **/.ipynb_checkpoints/
 *.ipynb
 
-algorithms/tmp_out/
-*.sqlite
-*.db
 
-visuals/videos/
-*.mp4
-*.avi
 
 .DS_Store
 .vscode/
