@@ -43,6 +43,7 @@ evogym-grn-thesis/
 │   ├── intricacy.py
 │   ├── phase_grids.py
 │   ├── intricacy_per_gen_final.csv
+│   ├── results_stats_and_scatter.py  
 │   └── plots/
 │       ├── plot.py
 │       ├── plots_5x5/
