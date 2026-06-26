@@ -116,30 +116,6 @@ with:
 - Reward & penalty fitness did not significantly increase raw intricacy, normalized intricacy, or actuator balance.
 - The reward function mainly increased body size and material variation, not boundary intricacy.
 
-## Final Statistical Results
-
-Final-generation tests used the best robot from each independent run, with `n = 10` per condition.
-
-| Metric | Displacement median | Reward & penalty median | p-value |
-|---|---:|---:|---:|
-| Final displacement | `51.2` | `49.7` | `0.623` |
-| Body size | `9.5` | `13.5` | `0.022` |
-| Raw intricacy | `8.0` | `9.0` | `0.905` |
-| Intricacy per voxel | `0.95` | `0.74` | `0.140` |
-| Actuator balance | `0.62` | `0.67` | `0.445` |
-
-Additional generation-20 displacement comparison:
-
-| Metric | Displacement median | Reward & penalty median | p-value |
-|---|---:|---:|---:|
-| Generation 20 displacement | `39.8` | `34.5` | `0.241` |
-
-Pearson correlation between final raw intricacy and displacement:
-
-```text
-r = 0.271
-p = 0.248
-```
 
 ## Installation
 
