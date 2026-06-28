@@ -53,7 +53,8 @@ report_mannwhitney("intricacy_per_voxel", 150, "Generation 150 intricacy per vox
 report_mannwhitney("intricacy_per_perimeter", 150, "Generation 150 intricacy per perimeter")
 
 
-final_df = champions[champions["generation"] == 150].copy()
+final_df = df[df["generation"] == 150].copy()
+
 valid = final_df[["intricacy", "displacement"]].dropna()
 valid = valid[np.isfinite(valid["intricacy"]) & np.isfinite(valid["displacement"])]
 
@@ -63,6 +64,8 @@ y = valid["displacement"]
 if len(valid) >= 3 and x.nunique() > 1 and y.nunique() > 1:
     r, p = pearsonr(x, y)
     print("\nPearson correlation: final displacement vs raw intricacy")
+    print("Using all final-generation individuals")
+    print(f"n = {len(valid)}")
     print(f"r = {r:.3f}")
     print(f"p = {p:.3f}")
 else:
@@ -70,14 +73,15 @@ else:
     print("\nPearson correlation could not be calculated.")
 
 
-plt.figure(figsize=(6, 4))
+plt.figure(figsize=(7, 5))
 
 for experiment, group in final_df.groupby("experiment"):
     plt.scatter(
         group["intricacy"],
         group["displacement"],
         label=experiment,
-        alpha=0.8
+        alpha=0.35,
+        s=25
     )
 
 if len(valid) >= 3 and x.nunique() > 1:
@@ -87,7 +91,13 @@ if len(valid) >= 3 and x.nunique() > 1:
     x_line = np.linspace(x.min(), x.max(), 100)
     y_line = trend(x_line)
 
-    plt.plot(x_line, y_line, linestyle="--", label="Linear trend")
+    plt.plot(
+        x_line,
+        y_line,
+        linestyle="--",
+        linewidth=2,
+        label="Linear trend"
+    )
 
 plt.xlabel("Raw morphological intricacy")
 plt.ylabel("Displacement")
