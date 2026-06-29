@@ -52,52 +52,49 @@ report_mannwhitney("intricacy", 150, "Generation 150 raw intricacy")
 report_mannwhitney("intricacy_per_voxel", 150, "Generation 150 intricacy per voxel")
 report_mannwhitney("intricacy_per_perimeter", 150, "Generation 150 intricacy per perimeter")
 
-
 final_df = df[df["generation"] == 150].copy()
-
-valid = final_df[["intricacy", "displacement"]].dropna()
-valid = valid[np.isfinite(valid["intricacy"]) & np.isfinite(valid["displacement"])]
-
-x = valid["intricacy"]
-y = valid["displacement"]
-
-if len(valid) >= 3 and x.nunique() > 1 and y.nunique() > 1:
-    r, p = pearsonr(x, y)
-    print("\nPearson correlation: final displacement vs raw intricacy")
-    print("Using all final-generation individuals")
-    print(f"n = {len(valid)}")
-    print(f"r = {r:.3f}")
-    print(f"p = {p:.3f}")
-else:
-    r, p = np.nan, np.nan
-    print("\nPearson correlation could not be calculated.")
-
 
 plt.figure(figsize=(7, 5))
 
+correlation_results = {}
+
 for experiment, group in final_df.groupby("experiment"):
-    plt.scatter(
-        group["intricacy"],
-        group["displacement"],
-        label=experiment,
-        alpha=0.35,
-        s=25
-    )
+    valid = group[["intricacy", "displacement"]].dropna()
+    valid = valid[np.isfinite(valid["intricacy"]) & np.isfinite(valid["displacement"])]
 
-if len(valid) >= 3 and x.nunique() > 1:
-    coeffs = np.polyfit(x, y, 1)
-    trend = np.poly1d(coeffs)
+    x = valid["intricacy"]
+    y = valid["displacement"]
 
-    x_line = np.linspace(x.min(), x.max(), 100)
-    y_line = trend(x_line)
+    if len(valid) >= 3 and x.nunique() > 1 and y.nunique() > 1:
+        r, p = pearsonr(x, y)
+        correlation_results[experiment] = (len(valid), r, p)
 
-    plt.plot(
-        x_line,
-        y_line,
-        linestyle="--",
-        linewidth=2,
-        label="Linear trend"
-    )
+        print(f"\nPearson correlation: {experiment}")
+        print(f"n = {len(valid)}")
+        print(f"r = {r:.3f}")
+        print(f"p = {p:.3g}")
+
+        plt.scatter(
+            x,
+            y,
+            label=f"{experiment} points",
+            alpha=0.35,
+            s=25
+        )
+
+        coeffs = np.polyfit(x, y, 1)
+        trend = np.poly1d(coeffs)
+
+        x_line = np.linspace(x.min(), x.max(), 100)
+        y_line = trend(x_line)
+
+        plt.plot(
+            x_line,
+            y_line,
+            linestyle="--",
+            linewidth=2,
+            label=f"{experiment} trend"
+        )
 
 plt.xlabel("Raw morphological intricacy")
 plt.ylabel("Displacement")
